@@ -1,4 +1,4 @@
-# IO多路复用
+# 6 IO多路复用
 
 ## 6.1
 
@@ -35,6 +35,8 @@ fd write ready条件
 * socket error
 * udp随时写，因为没有连接
 
+select的轮训简直丑
+
 ## 6.5 批量输出和缓冲
 
 stdio和select配合必须非常小心，select只知道可读状态，不知道读取会剩余数据
@@ -52,3 +54,8 @@ SHUT_WR，缓冲区写数据被发送
 ## 6.9 pselect
 
 pselect可以用来屏蔽一些信号量，防止select阻塞早成信号量丢失
+
+## 6.10 poll
+
+针对STREAMS设备增加了额外信息
+
