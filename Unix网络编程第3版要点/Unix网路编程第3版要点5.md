@@ -1,6 +1,7 @@
 # 5 TCP示例
 
 ## 5.6 正常启动
+
 客户端read_chan阻塞于标准IO，服务器tcp_data_wai阻塞于socketIO，服务器wait_for_connet阻塞于accept或connect
 
 几个tcp进程stat是S，即sleep
@@ -69,4 +70,9 @@ SA_RESTART自动重启中断的系统调用，在一些系统中没有效果
 一段时间后TCP超时，或发现不可到达错误
 
 ## 5.16 主机关机
+
 shutdown主机，init进程向全部进程发SIGTERM，一段时间后发SIGKILL
+
+## 5.18
+
+需要注意传送二进制数据的大小端问题
