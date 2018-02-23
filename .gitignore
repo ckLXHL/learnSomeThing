@@ -1,2 +1,4 @@
 AnacondaProjects/*
 !AnacondaProjects/*.ipynb
+train_guide/**/*
+!train_guide/train_guide/*
