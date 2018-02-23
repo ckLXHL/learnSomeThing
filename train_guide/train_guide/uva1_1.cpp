@@ -7,6 +7,8 @@
 //
 
 #include "myh.h"
+
+
 //uva 11292
 int loowater(vector<int>& head,vector<int>& knight) {
     sort(begin(head), end(head));
