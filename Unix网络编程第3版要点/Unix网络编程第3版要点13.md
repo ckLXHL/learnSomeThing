@@ -36,4 +36,6 @@ LOG_NOTICE|5|正常重要内容
 LOG_INFO|6|信息
 LOG_DEBUG|7|debug级信息
 
-第一个参数也可以是一些代表功能的常量。可以用或连接
+第一个参数也可以是一些代表功能的常量LOG_*。可以用或连接
+
+syslog connect 由syslogd开启的unix socket，可以使用openlog和closelog控制连接
