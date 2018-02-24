@@ -74,6 +74,7 @@ basic_ostream<Ch,Tr>& operator<<(basic_ostream<Ch,Tr>& os,const C& c){
     return os<<']';
 }
 
+void print_vars(ostream&);
 template<typename Car,typename... Cdr>
 void print_vars(ostream& os,const Car& car,const Cdr&... cdr){
     print_vars(os<<car<<(sizeof...(cdr)?",":""),cdr...);
@@ -101,5 +102,13 @@ constexpr int maxn=305;
 
 int loowater(vector<int>& head,vector<int>& knight);
 int commando(vector<pair<int, int>>& bux);
+ll stw(vector<ll>& nows);
+double grav(int n, int m);
+struct threeI {
+    int pos;
+    int di;
+    int index;
+};
+void ants(int l, int t, vector<pii> pos, vector<threeI>& three);
 
 #endif /* myh_h */
