@@ -39,3 +39,18 @@ LOG_DEBUG|7|debug级信息
 第一个参数也可以是一些代表功能的常量LOG_*。可以用或连接
 
 syslog connect 由syslogd开启的unix socket，可以使用openlog和closelog控制连接
+
+
+> 13.4 session需要复习
+
+## 13.5 inetd 守护进程
+
+优点：
+1. 简化守护进程代码，通用的启动工作交给inetd
+2. 让一个守护进程等待所有请求，节省进程数
+
+可以使用openlog将守护进程注册到inetd，由inetd管理fork，exec之类的工作
+
+在inetd中，tcp和udp服务方式不一样，udp只能有一个端口监听，服务开启期间inetd不监听端口，tcp持续监听。
+
+inetd fork exec性能不高，高负载服务器一般不使用
