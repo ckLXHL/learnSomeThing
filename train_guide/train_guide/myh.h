@@ -109,6 +109,6 @@ struct threeI {
     int di;
     int index;
 };
-void ants(int l, int t, vector<pii> pos, vector<threeI>& three);
+void ants(int t, vector<threeI>& three);
 
 #endif /* myh_h */

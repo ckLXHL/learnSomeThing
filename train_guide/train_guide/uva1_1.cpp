@@ -69,13 +69,39 @@ double grav(int n, int m) {
     return accumulate(++begin(res), --end(res), 0.0) *10000/ n;
 }
 //uva 10881
-void ants(int l, int t, vector<pii>& pos, vector<threeI>& three) {
-    sort(begin(pos), end(pos));
+void ants(int t, vector<threeI>& three) {
     sort(begin(three), end(three), [](threeI& a, threeI& b) {
-        return a.pos == b.pos? a.pos < b.pos: a.di < b.di;
+        return a.pos < b.pos;
     });
-    for (int i = 0; i < pos.size(); i++) {
-        pos[i].first += three[i].di * t;
+    transform(begin(three), end(three), begin(three), [t](threeI a) {
+        a.pos += a.di * t;
+        return a;
+    });
+    vector<int> di(three.size(), 0);
+    
+    sort(begin(three), end(three), [](threeI& a, threeI& b) {
+        return a.pos < b.pos;
+    });
+    transform(begin(three), end(three), di.begin(), [](const threeI& a) {
+        return a.di;
+    });
+    dump(di);
+    auto be = begin(three);
+    while(be != end(three)) {
+        auto ne = upper_bound(be, end(three), be->pos, [](int pos, threeI& b) {
+            return pos < b.pos;
+        });
+        if (ne - be > 1) {
+            transform(be, ne, be, [](threeI b) {
+                b.di = 1;
+                return b;
+            });
+        } else {
+            be->di = di[be - begin(three)]+1;
+        }
+        be = ne;
     }
-    sort(begin(pos), end(pos));
+    sort(three.begin(), three.end(), [](threeI& a, threeI& b) {
+        return a.index < b.index;
+    });
 }
