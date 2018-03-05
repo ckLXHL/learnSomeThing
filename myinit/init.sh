@@ -8,6 +8,8 @@ proxy_on
 
 jupyter notebook >/dev/null 2>&1 &
 
+conda install pandas opencv >./conda.log 2>&1 &
+
 function proxy_on() {
      export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
      export http_proxy="socks5://127.0.0.1:1080"
