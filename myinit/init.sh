@@ -9,6 +9,12 @@ function proxy_on() {
      echo -e "已开启代理"
  }
 
+ function proxy_off(){
+     unset http_proxy
+     unset https_proxy
+     echo -e "已关闭代理"
+ }
+
 sslocal -s 35.194.219.96 -p 9999 -k "123456" -m aes-256-cfb >./ss.log 2>&1 &
 
 proxy_on
