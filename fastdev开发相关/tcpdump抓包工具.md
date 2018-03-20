@@ -36,3 +36,30 @@
 > 主机为foo且端口不是ftp(端口21)和ftp-data(端口20)的包
 
 ## 3. tcpdump抓包mysql请求
+
+1. 使用tcpdump抓取流量命令：
+
+    tcpdump -i lo -s 0 -w ./mylog_packet port 3306
+
+2. 使用tcpdump分析存储的流量命令
+
+    tcpdump -r mylog_packet -X
+
+3. mysql TCP包图解：
+
+![Alt text](https://cloud.intra.xiaojukeji.com/s/FOR82XNBYCOlRBR)
+
+Type	|Name	|Description
+-|-|-
+3byte	|payload_length	|开头4字节mysql包头后，整个包体的长度
+1byte	|sequence_id	|序列id
+string	|payload|	包体
+1byte |command type| mysql命令类型，包体第一个字节
+
+[mysql TCP包图解](https://cloud.intra.xiaojukeji.com/s/JOsSwcfRv9Cra0n)
+
+mysql TCP包头后第一个字节，之后跟着的就是命令字符串：
+
+[mysql命令类型](https://dev.mysql.com/doc/internals/en/command-phase.html)
+
+4. MYSQL 请求响应流量实例
