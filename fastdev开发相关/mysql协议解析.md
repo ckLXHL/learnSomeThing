@@ -34,24 +34,18 @@
 
 ### 3.1 握手阶段字段
 
-1              [0a] protocol version
-string[NUL]    server version
-4              connection id
-string[8]      auth-plugin-data-part-1
-1              [00] filler
-2              capability flags (lower 2 bytes)
-  if more data in the packet:
-1              character set
-2              status flags
-2              capability flags (upper 2 bytes)
-  if capabilities & CLIENT_PLUGIN_AUTH {
-1              length of auth-plugin-data
-  } else {
-1              [00]
-  }
-string[10]     reserved (all [00])
-  if capabilities & CLIENT_SECURE_CONNECTION {
-string[$len]   auth-plugin-data-part-2 ($len=MAX(13, length of auth-plugin-data - 8))
-  if capabilities & CLIENT_PLUGIN_AUTH {
-string[NUL]    auth-plugin name
-  }
+类型+长度| [默认值]描述
+-|-
+1 byte           |  [0a] 协议版本
+string[NUL]   | 服务器版本
+4 byte            | connection id
+string[8]     | 认证数据 part 1
+1             | [00] 常零filler
+2             | capability flags
+|附加的字段
+1             | 字符集
+2             | 状态位
+2             | 扩展capability flags字段
+1 | 认证数据长度或0，取决于标志位CLIENT_PLUGIN_AUTH
+string[10]    | 保留字段，全0
+string |指定CLIENT_SECURE_CONNECTION标志，则代表认证数据 part 2。指定CLIENT_PLUGIN_AUTH标志，则代表 auth name
