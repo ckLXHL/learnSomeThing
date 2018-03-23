@@ -1,8 +1,13 @@
 # mysql二进制协议解析
 > mysql使用TCP协议
+>
 > 在tcpdump获取的的IP包数据中，首先是IP协议头，其次是TCP协议头，之后就是TCP包体
+>
 > 以上协议头都可以通过协议头中的头长度字段准确分离
+>
 > mysql协议头紧跟着TCP协议头，是TCP包体中最初的数据
+>
+> 本文中数据是通过抓包方式得到，所以一些具体的内容可能会绑定具体的状态，请求方式，认证方式等。
 
 ## 1. mysql协议的数据包基本形式
 
@@ -22,17 +27,22 @@
     - Initial Handshake 初始化握手
     - Auth Phase 认证阶段
 - 命令阶段
-     - 请求
+    - request
         - 命令类型
         - 命令
-    - 响应
+    - response
         - OK_Packet 命令成功
         - ERR_Packet 命令错误
+        - Text Resultset 带数据response
         > 截止18-3-22 mysql版本8.0.0
 
-## 3. mysql包体数据解析
+## 3. mysql请求流程
 
 ### 3.1 握手阶段字段
+
+> 这个阶段是建立TCP连接后第一个报文
+> 由server 发送给 client
+> 这个阶段可以看到TCP ACK包
 
 类型+长度| [默认值]描述
 -|-
@@ -49,3 +59,25 @@ string[8]     | 认证数据 part 1
 1 | 认证数据长度或0，取决于标志位CLIENT_PLUGIN_AUTH
 string[10]    | 保留字段，全0
 string |指定CLIENT_SECURE_CONNECTION标志，则代表认证数据 part 2。指定CLIENT_PLUGIN_AUTH标志，则代表 auth name
+
+### 3.2 认证阶段
+> 这个阶段是握手后的报文
+> 由client 端发送给 server端
+> 这个阶段同样可以看到TCP ACK包
+
+- 认证完成后 Client会收到 Server端的 response OK 包。
+
+- 从认证完成后第一个 response OK包开始，之后的TCP ACK包都会变成mysql的 response OK包，即序列号和响应状态都由mysql协议管理，网络上看不到单纯的TCP ACK包了
+
+### 3.3 request "set names utf8"
+
+这是一个用于解决乱码问题的请求，具体问题的原因如
+[解决乱码](http://www.cnblogs.com/hongfei/archive/2011/12/29/set-names-utf8.html)。
+
+### 3.4 request "command"
+
+### 3.5 Text Resultset response
+
+### 3.6 request Quit
+
+## 4 Text Resultset response详解
