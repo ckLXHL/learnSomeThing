@@ -96,8 +96,20 @@ string[NULL]    | string[NUL]    auth plugin name，类似于 “mysql_native_pa
 
 ### 3.4 request "command"
 
-### 3.5 Text Resultset response
+类型+长度| [默认值]描述
+-|-
+4byte | 通用mysql协议头
+1byte          |    [03] COM_QUERY请求类型标志位，3表示通用请求
+string[EOF]   | the query the server shall execute
+
+### 3.5 response
 
 ### 3.6 request Quit
 
-## 4 Text Resultset response详解
+## 4 response详解
+
+### 4.1 ERR_Packet
+
+### 4.2 OK_Packet
+
+### 4.3 ProtocolText::Resultset
