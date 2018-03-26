@@ -104,6 +104,10 @@ string[EOF]   | the query the server shall execute
 
 ### 3.5 response
 
+
+
+[mysql官方文档对response的解释](https://dev.mysql.com/doc/internals/en/com-query-response.html)
+
 >以下解析忽略mysql标准头
 
 - response OK_Packet
@@ -139,9 +143,31 @@ string[5]	|sql_state	|SQL State出现取决于CLIENT_PROTOCOL_41标志
 
 string<EOF>	|error_message	|human readable error message
 
-### 3.6 request Quit
+### 3.6 EOR_Packet
 
-mysql头之后的第一个byte为1，即COM_QUIT类型请求
+> 这里只考虑设置了CLIENT_PROTOCOL_41标志的情况
+
+类型 | 说明
+-|-
+int<1>	|header	[fe] EOF header
+  int<2>|	warnings	number of warnings
+  int<2>|	status_flags	Status Flags
+
+### 3.7 request Quit
+
+mysql头之后的只有1个byte，即COM_QUIT标志，代表退出请求
 
 ## 4. response Resultset详解
 
+response Resultset本质上是3+字段数+行数个mysql协议包的组合，其中3指开头一个说明字段数的包+两个EOF包
+
+- 第一个包
+    - 包体只有一个字段，类型int<lenenc>，包含column_count，代表数
+- 列包，column_count个ColumnDefinition包
+- EOF 包
+- ResultsetRow行包，每行一个包
+- EOF 包
+
+### 4.1 ColumnDefinition列包详解
+
+### 4.2 ResultsetRow行包详解
