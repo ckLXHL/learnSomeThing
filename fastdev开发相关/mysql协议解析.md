@@ -170,4 +170,22 @@ response Resultset本质上是3+字段数+行数个mysql协议包的组合，�
 
 ### 4.1 ColumnDefinition列包详解
 
+类型 | 名称
+-|-
+lenenc_str  |   catalog
+lenenc_str  |   schema
+lenenc_str  |   table
+lenenc_str  |   org_table
+lenenc_str  |   name
+lenenc_str  |   org_name
+lenenc_int |    length of fixed-length fields [0c]|
+2 byte            | character set
+4 byte          | column length
+1 byte         |  type
+2 byte          | flags
+1 byte           |decimals
+2 byte            |filler [00] [00]
+
 ### 4.2 ResultsetRow行包详解
+
+包体内容为 column_count个string[lenenc]
