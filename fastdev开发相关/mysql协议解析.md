@@ -170,21 +170,23 @@ response Resultset本质上是3+字段数+行数个mysql协议包的组合，�
 
 ### 4.1 ColumnDefinition列包详解
 
-类型 | 名称
--|-
-lenenc_str  |   catalog
-lenenc_str  |   schema
-lenenc_str  |   table
-lenenc_str  |   org_table
-lenenc_str  |   name
-lenenc_str  |   org_name
-lenenc_int |    length of fixed-length fields [0c]|
-2 byte            | character set
-4 byte          | column length
-1 byte         |  type
-2 byte          | flags
-1 byte           |decimals
-2 byte            |filler [00] [00]
+[ColumnDefinition定义](https://dev.mysql.com/doc/internals/en/com-query-response.html#packet-Protocol::ColumnDefinition)
+
+类型 | 名称| 描述
+-|-|-
+lenenc_str  |   catalog|catalog (always "def")
+lenenc_str  |   schema|schema-name
+lenenc_str  |   table|virtual table-name
+lenenc_str  |   org_table|physical table-name
+lenenc_str  |   name|virtual column name
+lenenc_str  |   org_name| physical column name
+lenenc_int |    length of fixed-length fields [0c] |length of the following fields (always 0x0c)
+2 byte            | character set|is the column character set
+4 byte          | column length|maximum length of the field
+1 byte         |  type| type of the column
+2 byte          | flags|flags
+1 byte           |decimals|max shown decimal digits
+2 byte            |filler [00] [00]|
 
 ### 4.2 ResultsetRow行包详解
 
