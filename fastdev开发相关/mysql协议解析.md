@@ -104,12 +104,44 @@ string[EOF]   | the query the server shall execute
 
 ### 3.5 response
 
+>以下解析忽略mysql标准头
+
+- response OK_Packet
+
+> 状态位和warnings字段出现取决于CLIENT_PROTOCOL_41
+
+Type|	Name|	Description
+-|-|-
+int<1>	|header	|[00] or [fe] the OK packet header
+int[lenenc]	|affected_rows	|影响行数
+int[lenenc]	|last_insert_id	|last insert-id
+int<2>	|status_flags	|状态位 
+int<2>	|warnings	|number of warnings
+
+- response Resultset
+
+长度|描述
+-|-
+int[lenenc] |column-count
+packet[column-count] |Column Definition
+EOF_Packet|结束包
+packet[row]|每行一个packet
+EOF_Packet
+
+- response ERR_Packet
+
+Type	|Name	|Description
+-|-|-
+int<1>|	header	|[ff] header of the ERR packet
+int<2>	|error_code	|error-code
+string[1]	|sql_state_marker	|# marker of the SQL State，出现取决于CLIENT_PROTOCOL_41标志
+string[5]	|sql_state	|SQL State出现取决于CLIENT_PROTOCOL_41标志
+
+string<EOF>	|error_message	|human readable error message
+
 ### 3.6 request Quit
 
-## 4 response详解
+mysql头之后的第一个byte为1，即COM_QUIT类型请求
 
-### 4.1 ERR_Packet
+## 4. response Resultset详解
 
-### 4.2 OK_Packet
-
-### 4.3 ProtocolText::Resultset
