@@ -1,5 +1,4 @@
-AnacondaProjects/*
-!AnacondaProjects/*.ipynb
+.ipynb_checkpoints
 train_guide/**/*
 !train_guide/train_guide/*.h
 !train_guide/train_guide/*.cpp
