@@ -6,3 +6,4 @@ train_guide/**/*
 train_guide/train_guide/*.txt
 train_guide/train_guide/*.out
 公司学习
+.vscode
