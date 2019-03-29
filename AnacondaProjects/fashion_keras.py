@@ -33,8 +33,3 @@ print(train_images.shape, test_images.shape, train_labels.shape)
 from sklearn.linear_model import LinearRegression
 
 model = LinearRegression()
-
-f = urllib2.urlopen(url) 
-with open("demo2.zip", "wb") as code:
-code.write(f.read())
-
